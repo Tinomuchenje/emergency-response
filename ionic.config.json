@@ -1,0 +1,8 @@
+{
+  "name": "Emergency Response",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "3ca96c95"
+}
