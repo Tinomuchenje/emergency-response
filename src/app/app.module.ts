@@ -8,7 +8,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
-
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -20,7 +20,8 @@ import { AppComponent } from './app.component';
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule],
+    AngularFireDatabaseModule,
+    IonicStorageModule.forRoot()],
   providers: [
     CallNumber,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

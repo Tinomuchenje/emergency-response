@@ -1,0 +1,35 @@
+  <form  #form="ngForm">
+    <ion-grid>
+      <ion-row color="primary" justify-content-center>
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">  
+   
+          <div padding>
+            <ion-item>
+              <ion-input  name="name" type="text" placeholder="Name" ngModel required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input name="email" type="email" placeholder="your@email.com" ngModel required></ion-input>
+            </ion-item>          
+            <ion-item>
+              <ion-input name="homeAddress" type="text" placeholder="Home address" ngModel required></ion-input>
+            </ion-item>
+             <ion-item>
+              <ion-input name="nextOfKin" type="number" placeholder="Personal phone number" ngModel required></ion-input>
+            </ion-item>
+             <ion-item>
+              <ion-input name="nextOfKin" type="text" placeholder="Next of kin" ngModel required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input name="nextOfKin" type="number" placeholder="Next of kin phone number" ngModel required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input name="chronicIllness" type="text" placeholder="Chronic Illness" ngModel></ion-input>
+            </ion-item>
+          </div>
+          <div padding>
+            <ion-button  size="large" type="submit" [disabled]="form.invalid" expand="block">Save</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
