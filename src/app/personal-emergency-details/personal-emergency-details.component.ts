@@ -14,10 +14,8 @@ export class PersonalEmergencyDetailsComponent implements OnInit {
     await this.storage.create();
   }
 
-  async savePersonalDetails(user) {
+  async savePersonalDetails(user: any) {
     console.log('Saving personal details')
     await this.storage.set('userDetails', user);
-
-    // console.log('userDetails', userDetails)
   }
 }
