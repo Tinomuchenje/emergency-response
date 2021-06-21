@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-emergency-services',
@@ -12,12 +13,16 @@ export class EmergencyServicesComponent implements OnInit {
 
   longitude;
   latitude;
+
   constructor(
     private callNumber: CallNumber,
     private geolocation: Geolocation,
-    private database: AngularFireDatabase) { }
+    private database: AngularFireDatabase,
+    private storage: Storage) { }
 
-  ngOnInit() { }
+  async ngOnInit() {
+    await this.storage.create();
+  }
 
   callNow(numberToCall: string) {
 
@@ -32,12 +37,11 @@ export class EmergencyServicesComponent implements OnInit {
 
     console.log('Getting location');
 
-    this.saveUserLocation("1", "2");
     this.geolocation.getCurrentPosition().then((response) => {
       this.latitude = response.coords.latitude;
       this.longitude = response.coords.longitude;
 
-      this.saveUserLocation(this.latitude, this.longitude);
+      this.sendUserDetails(this.latitude, this.longitude);
 
       console.log('latitude', this.latitude);
       console.log('longitude', this.longitude);
@@ -46,11 +50,14 @@ export class EmergencyServicesComponent implements OnInit {
     });
   }
 
-  saveUserLocation(longitude: string, latitude: string) {
-    console.log('Saving location');
-    this.database.object('userDetails').set({
-      emergencyType: 'Default',
-      locationDetails: [longitude, longitude]
-    });
+  async sendUserDetails(longitude: string, latitude: string) {
+
+    const userDetails = await this.storage.get('userDetails');
+
+    userDetails.location = [longitude, latitude];
+
+    console.log('Saving user details', userDetails);
+
+    this.database.object('cases').set({ userDetails });
   }
 }

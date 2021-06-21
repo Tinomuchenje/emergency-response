@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-personal-emergency-details',
@@ -7,8 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonalEmergencyDetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private storage: Storage) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.storage.create();
+  }
 
+  async savePersonalDetails(user) {
+    console.log('Saving personal details')
+    await this.storage.set('userDetails', user);
+
+    // console.log('userDetails', userDetails)
+  }
 }

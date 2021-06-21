@@ -7,7 +7,9 @@ Details about mobile app
 -
 -
 
-
+## Concerns
+- Check overriding of data example on user details
+- Should test when sending using different devices 
 
 
 
