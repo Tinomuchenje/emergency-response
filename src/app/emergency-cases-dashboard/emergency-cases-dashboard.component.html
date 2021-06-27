@@ -1,5 +1,9 @@
+<ion-button (click)="getReportedCases()">Load Reported Cases</ion-button>
 <ion-content padding>
-                <ion-card *ngFor="let case of this.xxx">
+<ion-grid>
+  <ion-row>
+    <ion-col>
+                      <ion-card *ngFor="let case of this.xxx">
                     <ion-card-header><ion-card-title>{{case.name}}</ion-card-title> </ion-card-header>
                     <ion-card-content>
                       <h5>Home Addess{{case.homeAddress}}</h5>
@@ -9,6 +13,10 @@
                       <h5>Home Addess{{case.email}}</h5>
                     </ion-card-content>      
                 </ion-card>
+    </ion-col>
+    <ion-col>
+      ion-col
+    </ion-col>
+  </ion-row>
+</ion-grid>
 </ion-content>
-
-<ion-button (click)="getReportedCases()">Load Cases</ion-button>
