@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-emergency-cases-dashboard',
@@ -7,8 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmergencyCasesDashboardComponent implements OnInit {
 
-  constructor() { }
+  items: Observable<any[]>;
+  xxx: any;
 
-  ngOnInit() {}
+  constructor(private database: AngularFireDatabase) { }
 
+  ngOnInit() { }
+
+  getReportedCases(): any {
+    console.log("Getting reported cases");
+
+    this.items = this.database.list('/cases').valueChanges()
+
+    this.items.subscribe(valueOfItems => {
+      console.log(valueOfItems);
+      this.xxx = valueOfItems;
+    });
+  };
 }
