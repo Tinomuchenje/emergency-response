@@ -56,7 +56,8 @@ export class EmergencyServicesComponent implements OnInit {
 
     console.log('Saving user details', userDetails);
 
-    this.database.object('cases').set({ userDetails });
+    const casesRef = this.database.list('cases');
+    casesRef.push(userDetails);
   }
 
   async getNearestServiceNumber(): Promise<string> {
