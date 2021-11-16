@@ -24,8 +24,8 @@ export class EmergencyServicesComponent implements OnInit {
     await this.storage.create();
   }
 
-  async callNow() {
-    var numberToCall = await this.getNearestServiceNumber();
+  async callNow(type: string) {
+    var numberToCall = await this.getNearestServiceNumber(type);
 
     this.callNumber.callNumber(numberToCall, true)
       .then(result => console.log('Launched dialer!', result))
@@ -54,32 +54,46 @@ export class EmergencyServicesComponent implements OnInit {
 
     userDetails.location = [longitude, latitude];
 
-    console.log('Saving user details', userDetails);
+    //console.log('Saving user details', userDetails);
 
     const casesRef = this.database.list('cases');
     casesRef.push(userDetails);
   }
 
-  async getNearestServiceNumber(): Promise<string> {
+  async getNearestServiceNumber(type: string): Promise<string> {
     console.log("Getting nearest provider");
     let previousDistance = 0;
     let providerToCall;
+    let providers;
 
     await this.getUserLocation().then(() => {
       this.sendUserDetailsToServer(this.latitude, this.longitude);
 
-      let providers = [
-        { 'id': 0, 'zone': 'Malborough', 'lat': 15, 'lon': 30, 'phone_number': 1 },
-        { 'id': 1, 'zone': 'Dotito', 'lat': 40, 'lon': 50, 'phone_number': 2 },
-        { 'id': 2, 'zone': 'Zengeza', 'lat': 70, 'lon': 80, 'phone_number': 3 },
-        { 'id': 3, 'zone': 'Gokwe', 'lat': 5, 'lon': 8, 'phone_number': 4 }
+      var medical = [
+        { 'id': 0, 'zone': 'Malborough', 'lat': 37, 'lon': 30, 'phone_number': 100 },
+        { 'id': 1, 'zone': 'Dotito', 'lat': 58, 'lon': 99, 'phone_number': 200 },
+        { 'id': 2, 'zone': 'Zengeza', 'lat': -70, 'lon': 34, 'phone_number': 300 },
+        { 'id': 3, 'zone': 'Gokwe', 'lat': 5, 'lon': -8, 'phone_number': 987 }
       ];
+
+      var rape = [
+        { 'id': 0, 'zone': 'Warren Park', 'lat': 15, 'lon': 30, 'phone_number': 123 },
+        { 'id': 1, 'zone': 'Sunningdale', 'lat': -40, 'lon': 50, 'phone_number': 456 },
+        { 'id': 2, 'zone': 'Westgate', 'lat': 70, 'lon': 80, 'phone_number': 789 },
+        { 'id': 3, 'zone': 'Dombo', 'lat': 5, 'lon': 8, 'phone_number': 400 }
+      ];
+
+      if (type === 'R')
+        providers = rape;
+
+      if (type === 'M')
+        providers = medical;
 
       providers.forEach(provider => {
         var distance = this.getDistanceFromLatLonInKm(this.latitude, this.longitude, provider.lat, provider.lon);
 
-        console.log(provider);
-        console.log('Provider is' + provider + 'distance is ' + distance);
+        //console.log(provider);
+        console.log('Provider is ' + provider.zone + ' distance is ' + distance);
 
         if (previousDistance === 0) {
           previousDistance = distance;
@@ -101,7 +115,7 @@ export class EmergencyServicesComponent implements OnInit {
   }
 
   getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-    //https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
+
     const RadiusOfEarth = 6371; // Radius of the earth in km
     var latitude_difference = this.deg2rad(lat2 - lat1);  // deg2rad below
     var longitude_difference = this.deg2rad(lon2 - lon1);
